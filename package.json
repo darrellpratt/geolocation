@@ -1,13 +1,11 @@
 {
-  "name": "geolocation",
+  "name": "bbox-calc",
   "description": "Bounding box calculations",
   "version": "0.0.1x",
   "dependencies": {},
   "scripts": {
     "lint": "./node_modules/.bin/jshint .",
     "pretest": "npm run-script lint",
-    "test": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha test",
-    "posttest": "./node_modules/.bin/istanbul check-coverage && rm -rf coverage",
     "prepublish": "npm test && npm prune"
   },
   "publishConfig": {
@@ -16,8 +14,6 @@
   "author": "Darrell Pratt <darrell.pratt@gmail.com>",
   "license": "ISC",
   "devDependencies": {
-    "mocha": "^1.18.2",
-    "istanbul": "^0.2.7",
     "jshint": "^2.5.0"
   },
   "repository": {
