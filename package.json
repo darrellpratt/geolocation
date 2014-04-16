@@ -4,7 +4,7 @@
   "version": "0.0.3",
   "dependencies": {},
   "scripts": {
-    "lint": "./node_modules/.bin/jshint .",
+    "lint": "./node_modules/.bin/jshint index.js",
     "pretest": "npm run-script lint",
     "prepublish": "npm test && npm prune"
   },
