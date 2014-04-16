@@ -1,7 +1,7 @@
 {
   "name": "geolocation",
-  "description": "GIS functions",
-  "version": "0.0.0",
+  "description": "Bounding box calculations",
+  "version": "0.0.1x",
   "dependencies": {},
   "scripts": {
     "lint": "./node_modules/.bin/jshint .",
