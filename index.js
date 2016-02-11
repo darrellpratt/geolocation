@@ -44,10 +44,10 @@ function GeoLocation(latitude, longitude) {
  *   x = longitude,  y = lattitude & is lowerleft x,y, upper right x,y
  */
 GeoLocation.prototype.boundingBox = function (radKm) {
-  console.log('geolocation class');
-  console.log(this.degLon);
-  console.log(radKm);
-  console.log(this.degLat);
+  //console.log('geolocation class');
+  //console.log(this.degLon);
+  //console.log(radKm);
+  //console.log(this.degLat);
 
   var radDist = radKm / this.earthRadius,
     minLat = this.radLat - radDist,
@@ -55,7 +55,7 @@ GeoLocation.prototype.boundingBox = function (radKm) {
     minLon,
     maxLon;
 
-  console.log(radDist);
+  //console.log(radDist);
 
   if (minLat > this.MIN_LAT && maxLat < this.MAX_LAT) {
     var deltaLon = Math.asin(Math.sin(radDist) /
