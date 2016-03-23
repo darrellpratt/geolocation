@@ -13,7 +13,7 @@ npm install bbox-calc --save
 ## Usage
 ```
 var geo = new GeoLocation(41.8748562,-87.6352741);
-var bbox = geo.boundingBox(dist);
+var bbox = geo.boundingBox(radiusInKm);
 ```
 
 ## Credits
