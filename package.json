@@ -1,7 +1,7 @@
 {
   "name": "bbox-calc",
   "description": "Bounding box calculations",
-  "version": "0.0.4",
+  "version": "0.4.1",
   "dependencies": {},
   "scripts": {
     "lint": "./node_modules/.bin/jshint index.js",
