@@ -2,7 +2,7 @@
 
 Bounding box calculation based on lat,lon and distance.  Using Haversine formula
 
-[![Known Vulnerabilities](https://snyk.io/test/npm/name/badge.svg)](https://snyk.io/test/npm/name)
+[![Known Vulnerabilities](https://snyk.io/test/npm/bebox-calc/badge.svg)](https://snyk.io/test/npm/bebox-calc)
 
 
 ## Installation
