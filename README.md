@@ -2,7 +2,8 @@
 
 Bounding box calculation based on lat,lon and distance.  Using Haversine formula
 
-[![build status](https://secure.travis-ci.org/darrellpratt/geolocation.png)](http://travis-ci.org/darrellpratt/geolocation)
+[![Known Vulnerabilities](https://snyk.io/test/npm/name/badge.svg)](https://snyk.io/test/npm/name)
+
 
 ## Installation
 
