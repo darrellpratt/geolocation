@@ -10,7 +10,7 @@ class GeoLocation {
    * @param {number} longitude - Longitude in degrees
    */
   constructor(latitude, longitude) {
-    this.version = '0.4.1';
+    this.version = '0.5.0';
     this.degLon = longitude;
     this.degLat = latitude;
     this.earthRadius = 6371.01;

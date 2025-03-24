@@ -1,7 +1,7 @@
 {
   "name": "bbox-calc",
   "description": "Bounding box calculations",
-  "version": "0.4.2",
+  "version": "0.5.0",
   "main": "index.js",
   "types": "index.d.ts",
   "type": "commonjs",

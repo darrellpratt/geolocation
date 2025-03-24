@@ -10,7 +10,7 @@ describe('GeoLocation', () => {
       expect(geo.degLat).toBe(41.8748562);
       expect(geo.degLon).toBe(-87.6352741);
       expect(geo.earthRadius).toBe(6371.01);
-      expect(geo.version).toBe('0.4.1');
+      expect(geo.version).toBe('0.5.0');
       
       // Calculated values - use actual values from implementation
       expect(geo.radLat).toBe(geo.toRadians(geo.degLat));
