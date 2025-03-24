@@ -1,87 +1,95 @@
 'use strict';
 
-function GeoLocation(latitude, longitude) {
-
-  // functions
-  this.fromRadians = function (latitude, longitude) {
-
-    var degLat = latitude * 180 / Math.PI, // degrees = radians * (180/pi)
-      degLon = longitude * 180 / Math.PI; // degrees = radians * (180/pi)
-
-    return [degLon, degLat];
-  };
-
-  /** Converts numeric degrees to radians */
-  if (typeof Number.prototype.toRad === 'undefined') {
-    Number.prototype.toRad = function () {
-      return this * Math.PI / 180;
-    };
-  }
-
-  /** Converts radians to numeric (signed) degrees */
-  if (typeof Number.prototype.toDeg === 'undefined') {
-    Number.prototype.toDeg = function () {
-      return this * 180 / Math.PI;
-    };
-  }
-
-  this.version = '0.1';
-  this.degLon = longitude;
-  this.degLat = latitude;
-  this.earthRadius = 6371.01;
-  this.radLon = this.degLon.toRad();
-  this.radLat = this.degLat.toRad();
-
-  this.MIN_LAT = (-90).toRad();  // -PI/2
-  this.MAX_LAT = (90).toRad();   //  PI/2
-  this.MIN_LON = (-180).toRad(); // -PI
-  this.MAX_LON = (180).toRad();
-
-}
-
-/*
- * Return a bounding box in form [minX,minY,maxX,maxY]
- *   x = longitude,  y = lattitude & is lowerleft x,y, upper right x,y
+/**
+ * GeoLocation class for calculating bounding boxes
  */
-GeoLocation.prototype.boundingBox = function (radKm) {
-  //console.log('geolocation class');
-  //console.log(this.degLon);
-  //console.log(radKm);
-  //console.log(this.degLat);
+class GeoLocation {
+  /**
+   * Create a new GeoLocation instance
+   * @param {number} latitude - Latitude in degrees
+   * @param {number} longitude - Longitude in degrees
+   */
+  constructor(latitude, longitude) {
+    this.version = '0.4.1';
+    this.degLon = longitude;
+    this.degLat = latitude;
+    this.earthRadius = 6371.01;
+    this.radLon = this.toRadians(this.degLon);
+    this.radLat = this.toRadians(this.degLat);
 
-  var radDist = radKm / this.earthRadius,
-    minLat = this.radLat - radDist,
-    maxLat = this.radLat + radDist,
-    minLon,
-    maxLon;
-
-  //console.log(radDist);
-
-  if (minLat > this.MIN_LAT && maxLat < this.MAX_LAT) {
-    var deltaLon = Math.asin(Math.sin(radDist) /
-      Math.cos(this.radLat));
-    minLon = this.radLon - deltaLon;
-    if (minLon < this.MIN_LON) {
-      minLon += 2 * Math.PI;
-    }
-    maxLon = this.radLon + deltaLon;
-    if (maxLon > this.MAX_LON) {
-      maxLon -= 2 * Math.PI;
-    }
-  } else {
-    // a pole is within the distance
-    minLat = Math.max(minLat, this.MIN_LAT);
-    maxLat = Math.min(maxLat, this.MAX_LAT);
-    minLon = this.MIN_LON;
-    maxLon = this.MAX_LON;
+    this.MIN_LAT = this.toRadians(-90);  // -PI/2
+    this.MAX_LAT = this.toRadians(90);   //  PI/2
+    this.MIN_LON = this.toRadians(-180); // -PI
+    this.MAX_LON = this.toRadians(180);
   }
-  var lowerLeft = this.fromRadians(minLat, minLon),
-    upperRight = this.fromRadians(maxLat, maxLon);
 
-  return [lowerLeft[0], lowerLeft[1], upperRight[0], upperRight[1]].toString();
+  /**
+   * Convert degrees to radians
+   * @param {number} degrees - Angle in degrees
+   * @returns {number} Angle in radians
+   */
+  toRadians(degrees) {
+    return degrees * Math.PI / 180;
+  }
 
-};
+  /**
+   * Convert radians to degrees
+   * @param {number} radians - Angle in radians
+   * @returns {number} Angle in degrees
+   */
+  toDegrees(radians) {
+    return radians * 180 / Math.PI;
+  }
 
+  /**
+   * Convert latitude and longitude from radians to degrees
+   * @param {number} latitude - Latitude in radians
+   * @param {number} longitude - Longitude in radians
+   * @returns {Array<number>} [longitude, latitude] in degrees
+   */
+  fromRadians(latitude, longitude) {
+    const degLat = this.toDegrees(latitude);
+    const degLon = this.toDegrees(longitude);
+    return [degLon, degLat];
+  }
 
+  /**
+   * Calculate a bounding box around a point with a given radius
+   * @param {number} radKm - Radius in kilometers
+   * @returns {string} Comma-separated string of [minLon, minLat, maxLon, maxLat]
+   */
+  boundingBox(radKm) {
+    const radDist = radKm / this.earthRadius;
+    let minLat = this.radLat - radDist;
+    let maxLat = this.radLat + radDist;
+    let minLon, maxLon;
+
+    // Test both conditions to ensure branch coverage
+    const notAtPole = minLat > this.MIN_LAT && maxLat < this.MAX_LAT;
+    
+    if (notAtPole) {
+      const deltaLon = Math.asin(Math.sin(radDist) / Math.cos(this.radLat));
+      minLon = this.radLon - deltaLon;
+      if (minLon < this.MIN_LON) {
+        minLon += 2 * Math.PI;
+      }
+      maxLon = this.radLon + deltaLon;
+      if (maxLon > this.MAX_LON) {
+        maxLon -= 2 * Math.PI;
+      }
+    } else {
+      // a pole is within the distance
+      minLat = Math.max(minLat, this.MIN_LAT);
+      maxLat = Math.min(maxLat, this.MAX_LAT);
+      minLon = this.MIN_LON;
+      maxLon = this.MAX_LON;
+    }
+    
+    const lowerLeft = this.fromRadians(minLat, minLon);
+    const upperRight = this.fromRadians(maxLat, maxLon);
+
+    return [lowerLeft[0], lowerLeft[1], upperRight[0], upperRight[1]].toString();
+  }
+}
 
 module.exports = GeoLocation;
